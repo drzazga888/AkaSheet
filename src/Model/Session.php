@@ -1,6 +1,6 @@
 <?php
 
-namespace AkaSheet\Model;
+namespace Sracz\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +29,6 @@ class Session extends Model
 
     public function user()
     {
-        return $this->belongsTo('AkaSheet\\Model\\User');
+        return $this->belongsTo('Sracz\\Model\\User');
     }
 }

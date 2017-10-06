@@ -1,8 +1,8 @@
 <?php
 
-namespace AkaSheet\Middleware;
+namespace Sracz\Middleware;
 
-use \AkaSheet\Model\Session;
+use \Sracz\Model\Session;
 
 class Authorization {
     private $whiteList;

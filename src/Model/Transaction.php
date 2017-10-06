@@ -1,6 +1,6 @@
 <?php
 
-namespace AkaSheet\Model;
+namespace Sracz\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +14,6 @@ class Transaction extends Model
 
     public function buyer()
     {
-        return $this->belongsTo('AkaSheet\\Model\\User', 'buyer_id');
+        return $this->belongsTo('Sracz\\Model\\User', 'buyer_id');
     }
 }

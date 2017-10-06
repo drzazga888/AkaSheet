@@ -1,9 +1,9 @@
 <?php
 
-namespace AkaSheet\Controller;
+namespace Sracz\Controller;
 
 use \Interop\Container\ContainerInterface;
-use \AkaSheet\Model\Transaction as TransactionModel;
+use \Sracz\Model\Transaction as TransactionModel;
 
 class Transaction
 {

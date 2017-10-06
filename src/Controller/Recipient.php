@@ -1,9 +1,9 @@
 <?php
 
-namespace AkaSheet\Controller;
+namespace Sracz\Controller;
 
 use \Interop\Container\ContainerInterface;
-use \AkaSheet\Model\Recipient as RecipientModel;
+use \Sracz\Model\Recipient as RecipientModel;
 
 class Recipient
 {

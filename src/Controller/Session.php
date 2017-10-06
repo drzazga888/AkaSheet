@@ -1,10 +1,10 @@
 <?php
 
-namespace AkaSheet\Controller;
+namespace Sracz\Controller;
 
 use \Interop\Container\ContainerInterface;
-use \AkaSheet\Model\User as UserModel;
-use \AkaSheet\Model\Session as SessionModel;
+use \Sracz\Model\User as UserModel;
+use \Sracz\Model\Session as SessionModel;
 
 class Session
 {

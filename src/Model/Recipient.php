@@ -1,6 +1,6 @@
 <?php
 
-namespace AkaSheet\Model;
+namespace Sracz\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +14,6 @@ class Recipient extends Model
 
     public function users()
     {
-        return $this->belongsToMany('AkaSheet\\Model\\User', 'user_recipient', 'recipient_id', 'user_id');
+        return $this->belongsToMany('Sracz\\Model\\User', 'user_recipient', 'recipient_id', 'user_id');
     }
 }

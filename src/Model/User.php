@@ -1,6 +1,6 @@
 <?php
 
-namespace AkaSheet\Model;
+namespace Sracz\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,16 +48,16 @@ class User extends Model
 
     public function recipients()
     {
-        return $this->belongsToMany('AkaSheet\\Model\\Recipient', 'user_recipient', 'user_id', 'recipient_id');
+        return $this->belongsToMany('Sracz\\Model\\Recipient', 'user_recipient', 'user_id', 'recipient_id');
     }
 
     public function transactions()
     {
-        return $this->hasMany('AkaSheet\\Model\\Transaction', 'buyer_id');
+        return $this->hasMany('Sracz\\Model\\Transaction', 'buyer_id');
     }
 
     public function session()
     {
-        return $this->hasOne('AkaSheet\\Model\\Session');
+        return $this->hasOne('Sracz\\Model\\Session');
     }
 }
