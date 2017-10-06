@@ -10,5 +10,10 @@ class Recipient extends Model
 
     public $timestamps = false;
 
+    protected $fillable = ['name'];
 
+    public function users()
+    {
+        return $this->belongsToMany('AkaSheet\\Model\\User', 'user_recipient', 'recipient_id', 'user_id');
+    }
 }

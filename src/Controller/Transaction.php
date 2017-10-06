@@ -3,9 +3,9 @@
 namespace AkaSheet\Controller;
 
 use \Interop\Container\ContainerInterface;
-use \AkaSheet\Model\Receipt as ReceiptModel;
+use \AkaSheet\Model\Transaction as TransactionModel;
 
-class Receipt
+class Transaction
 {
     public function __construct(ContainerInterface $container) {
         $this->container = $container;
@@ -19,22 +19,23 @@ class Receipt
         $inputData['purchase_date'] = new \DateTime($inputData['purchase_date']);
         $inputData['created_at'] = new \DateTime();
         $inputData['updated_at'] = new \DateTime();
-        $newReceipt = ReceiptModel::create($inputData);
-        $newReceipt->purchase_date = $newReceipt->purchase_date->format('d-m-Y');
-        return $response->withJson($newReceipt);
+        $inputData['buyer_id'] = $this->container->currentUser->id;
+        $newTransaction = TransactionModel::create($inputData);
+        return $this->details($request, $response, ['id'=>$newTransaction->id]);
     }
 
     public function all($request, $response, $args) {
-        $receipts = ReceiptModel::all();
-        return $response->withJson($receipts);
+        $transactions = TransactionModel::with('buyer')->get();
+        return $response->withJson($transactions);
     }
 
     public function details($request, $response, $args) {
-        $receipt = ReceiptModel::find((int)$args['id']);
-        if($receipt === null) {
+        $transaction = TransactionModel::with('buyer')->find((int)$args['id']);
+        if($transaction === null) {
             return $response->withStatus(404);
         }
-        return $response->withJson($receipt);
+        $transaction->purchase_date = (new \DateTime($transaction->purchase_date))->format('d-m-Y');
+        return $response->withJson($transaction);
     }
 
     public function update($request, $response, $args) {
@@ -44,14 +45,15 @@ class Receipt
         }
         $inputData['purchase_date'] = new \DateTime($inputData['purchase_date']);
         $inputData['updated_at'] = new \DateTime();
-
-        $updatedReceipt = ReceiptModel::updateOrCreate($inputData, ['id' => (int)$args['id']]);
-        $updatedReceipt->purchase_date = $updatedReceipt->purchase_date->format('d-m-Y');
-        return $response->withJson($updatedReceipt);
+        $inputData['id'] = (int)$args['id'];
+        $updatedTransaction = TransactionModel::updateOrCreate(['id' => (int)$args['id']], $inputData);
+        $updatedTransaction->purchase_date = $updatedTransaction->purchase_date->format('d-m-Y');
+        $updatedTransaction->buyer;
+        return $response->withJson($updatedTransaction);
     }
 
     public function delete($request, $response, $args) {
-        ReceiptModel::destroy((int)$args['id']);
+        TransactionModel::destroy((int)$args['id']);
         return $response->withStatus(200);
     }
 }

@@ -8,23 +8,28 @@ $app->group('/api', function(){
     $this->post('/user', AkaSheet\Controller\User::class . ':register');
 
     // receipt
-    $this->get('/receipt', AkaSheet\Controller\Receipt::class . ':all');
-    $this->get('/receipt/{id}', AkaSheet\Controller\Receipt::class . ':details');
-    $this->post('/receipt', AkaSheet\Controller\Receipt::class . ':add');
-    $this->put('/receipt/{id}', AkaSheet\Controller\Receipt::class . ':update');
-    $this->delete('/receipt/{id}', AkaSheet\Controller\Receipt::class . ':delete');
+    $this->get('/transaction', AkaSheet\Controller\Transaction::class . ':all');
+    $this->get('/transaction/{id}', AkaSheet\Controller\Transaction::class . ':details');
+    $this->post('/transaction', AkaSheet\Controller\Transaction::class . ':add');
+    $this->put('/transaction/{id}', AkaSheet\Controller\Transaction::class . ':update');
+    $this->delete('/transaction/{id}', AkaSheet\Controller\Transaction::class . ':delete');
 
     // session
     $this->post('/session', AkaSheet\Controller\Session::class . ':login');
     $this->delete('/session', AkaSheet\Controller\Session::class . ':logout');
-});
 
-$app->get('/', function ($request, $response, $args) {
-    $file = dirname(__DIR__).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'index.html';
-    if(!file_exists($file)) {
-        return $response->withStatus(404);
-    }
-    $body = $response->getBody();
-    $body->write(file_get_contents($file));
+    // recipient
+    $this->get('/recipient', AkaSheet\Controller\Recipient::class . ':all');
+    $this->get('/recipient/{recipient_id}', AkaSheet\Controller\Recipient::class . ':info');
+    $this->post('/recipient', AkaSheet\Controller\Recipient::class . ':add');
+    $this->put('/recipient/{id}', AkaSheet\Controller\Recipient::class . ':update');
+    $this->delete('/recipient/{id}', AkaSheet\Controller\Recipient::class . ':delete');
+    $this->post('/recipient/{recipient_id}/user/{user_id}', AkaSheet\Controller\Recipient::class . ':assignUser');
+    $this->delete('/recipient/{recipient_id}/user/{user_id}', AkaSheet\Controller\Recipient::class . ':removeUser');
+})->add(new \AkaSheet\Middleware\Authorization($app));
+
+$app->get('/', AkaSheet\Controller\Main::class . ':main');
+
+$app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
