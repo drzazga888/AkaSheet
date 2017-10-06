@@ -19,6 +19,14 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.scss$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" },
+          { loader: "sass-loader" }
+        ]
+      },
+      {
         test: /\.css$/,
         use: [
           { loader: "style-loader" },
@@ -28,13 +36,13 @@ module.exports = {
       {
         test: /\.(png|jpg|gif)$/,
         use: [
-          { loader: 'url-loader' }
+          { loader: 'file-loader?name=images/[name].[ext]' }
         ]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
         use: [
-          { loader: 'url-loader' }
+          { loader: 'file-loader?name=fonts/[name].[ext]' }
         ]
       }
     ]

@@ -1,0 +1,174 @@
+$mainBackgroundColor: #FFFFFF;
+$secondBackgroundColor: #E3E3E3;
+$headerFontColor: #0077CC;
+$accentColor: #54E1AC;
+$fontColor: #4F4F4F;
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+
+.app {
+    background-color: $mainBackgroundColor;
+    color: $fontColor;
+    height: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    font-family: sans-serif;
+
+    .top-bar {
+        background: $secondBackgroundColor;
+        overflow: hidden;
+        flex: 0 0 50px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+
+        .app-header {
+            flex: 1 auto;
+            margin: 0;
+            font-family: 'Alfa Slab One', cursive;
+            font-weight: normal;
+
+            a {
+                text-decoration: none;
+                color: $headerFontColor;
+            }
+        }
+
+        .app-nav {
+            position: absolute;
+            z-index: 100;
+            background: $secondBackgroundColor;
+            overflow: auto;
+            visibility: hidden;
+            width: 200px;
+            right: -200px;
+            bottom: 0;
+            top: 50px;
+            margin: 0;
+            transition: right 0.2s, visibility 0.2s;
+            padding: 0 10px;
+            box-shadow: rgba(0, 0, 0, 0.7) 0 0 50px;
+            border-top: solid 2px $headerFontColor;
+
+            .menu {
+                list-style-type: none;
+                padding: 0;
+
+                li {
+                    margin: 5px 0;
+
+                    a {
+                        border-left: solid 6px $accentColor;
+                        text-decoration: none;
+                        display: block;
+                        padding: 10px;
+                        color: $fontColor;
+
+                        &.active {
+                            background: $accentColor;
+                        }
+                    }
+                }
+            }
+        }
+
+        .menu-toggler {
+            flex: 0 auto;
+            font-size: 1.6em;
+            border: none;
+            background: none;
+            border-radius: 0;
+        }
+    }
+
+    .app-scrollable {
+        flex: 1 auto;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+
+        .app-content {
+            flex: 1 auto;
+            padding: 0 10px;
+        }
+
+        .bottom-bar {
+            flex: 0 auto;
+            background-color: $secondBackgroundColor;
+            padding: 0 10px;
+        }
+    }
+
+    &.menu-opened {
+        .top-bar {
+            .app-nav {
+                visibility: visible;
+                right: 0;
+            }
+        }
+    }
+
+    .section-title {
+        font-family: 'Alfa Slab One', cursive;
+        font-weight: normal;
+        border-bottom: solid 2px $fontColor;
+        font-size: 0.8em;
+        text-transform: uppercase;
+    }
+
+    .banner {
+        background-color: $fontColor;
+        background-image: url(../img/money.jpg);
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;
+        margin: 0 -10px;
+        padding: 10px;
+        font-size: 1.5em;
+        letter-spacing: 2px;
+        color: transparentize($mainBackgroundColor, 0.3);
+        font-variant: small-caps;
+        
+        p {
+            margin: 0;
+        
+            em {
+                color: $accentColor;
+                font-style: normal;
+                font-style: normal;
+                font-family: 'Alfa Slab One', cursive;
+            }
+        }
+    }
+
+    blockquote {
+        position: relative;
+        font-style: italic;
+
+        &:before {
+            content: "\201C";
+            position: absolute;
+            left: -35px;
+            top: -10px;
+            font-size: 3em;
+        }
+    }
+
+    a {
+        color: $headerFontColor;
+    }
+}
