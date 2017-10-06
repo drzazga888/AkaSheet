@@ -1,9 +1,9 @@
 <?php
 
-namespace AkaSheet\Controller;
+namespace Sracz\Controller;
 
 use \Interop\Container\ContainerInterface;
-use \AkaSheet\Model\User as UserModel;
+use \Sracz\Model\User as UserModel;
 
 class User
 {
@@ -18,6 +18,8 @@ class User
             return $response->withStatus(400);
         }
         $inputData['password'] = UserModel::encryptPassword($inputData['password']);
+        $inputData['active'] = 1;
+        $inputData['role'] = UserModel::getRoles('USER');
         $newUser = UserModel::create($inputData);
         return $response->withJson($newUser);
     }
@@ -28,7 +30,7 @@ class User
     }
 
     public function info($request, $response, $args) {
-        $user = UserModel::find((int)$args['id']);
+        $user = UserModel::with('recipients', 'transactions')->find((int)$args['id']);
         if($user === null) {
             return $response->withStatus(404);
         }

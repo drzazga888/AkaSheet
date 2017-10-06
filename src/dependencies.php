@@ -27,3 +27,12 @@ $capsule->bootEloquent();
 $container['db'] = function ($container) {
     return $capsule;
 };
+
+$container['notFoundHandler'] = function ($container) {
+    return function ($request, $response) use ($container) {
+        $mainController = new \AkaSheet\Controller\Main($container);
+        return $mainController->main($request, $response, [])
+                              ->withStatus(404)
+                              ->withHeader('Content-Type', 'text/html');
+    };
+};

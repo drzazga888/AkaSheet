@@ -3,28 +3,33 @@
 
 $app->group('/api', function(){
     // user
-    $this->get('/user', AkaSheet\Controller\User::class . ':allUsers');
-    $this->get('/user/{id}', AkaSheet\Controller\User::class . ':info');
-    $this->post('/user', AkaSheet\Controller\User::class . ':register');
+    $this->get('/user', Sracz\Controller\User::class . ':allUsers');
+    $this->get('/user/{id}', Sracz\Controller\User::class . ':info');
+    $this->post('/user', Sracz\Controller\User::class . ':register');
 
     // receipt
-    $this->get('/receipt', AkaSheet\Controller\Receipt::class . ':all');
-    $this->get('/receipt/{id}', AkaSheet\Controller\Receipt::class . ':details');
-    $this->post('/receipt', AkaSheet\Controller\Receipt::class . ':add');
-    $this->put('/receipt/{id}', AkaSheet\Controller\Receipt::class . ':update');
-    $this->delete('/receipt/{id}', AkaSheet\Controller\Receipt::class . ':delete');
+    $this->get('/transaction', Sracz\Controller\Transaction::class . ':all');
+    $this->get('/transaction/{id}', Sracz\Controller\Transaction::class . ':details');
+    $this->post('/transaction', Sracz\Controller\Transaction::class . ':add');
+    $this->put('/transaction/{id}', Sracz\Controller\Transaction::class . ':update');
+    $this->delete('/transaction/{id}', Sracz\Controller\Transaction::class . ':delete');
 
     // session
-    $this->post('/session', AkaSheet\Controller\Session::class . ':login');
-    $this->delete('/session', AkaSheet\Controller\Session::class . ':logout');
-});
+    $this->post('/session', Sracz\Controller\Session::class . ':login');
+    $this->delete('/session', Sracz\Controller\Session::class . ':logout');
 
-$app->get('/', function ($request, $response, $args) {
-    $file = dirname(__DIR__).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'index.html';
-    if(!file_exists($file)) {
-        return $response->withStatus(404);
-    }
-    $body = $response->getBody();
-    $body->write(file_get_contents($file));
+    // recipient
+    $this->get('/recipient', Sracz\Controller\Recipient::class . ':all');
+    $this->get('/recipient/{recipient_id}', Sracz\Controller\Recipient::class . ':info');
+    $this->post('/recipient', Sracz\Controller\Recipient::class . ':add');
+    $this->put('/recipient/{id}', Sracz\Controller\Recipient::class . ':update');
+    $this->delete('/recipient/{id}', Sracz\Controller\Recipient::class . ':delete');
+    $this->post('/recipient/{recipient_id}/user/{user_id}', Sracz\Controller\Recipient::class . ':assignUser');
+    $this->delete('/recipient/{recipient_id}/user/{user_id}', Sracz\Controller\Recipient::class . ':removeUser');
+})->add(new \Sracz\Middleware\Authorization($app));
+
+$app->get('/', Sracz\Controller\Main::class . ':main');
+
+$app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
