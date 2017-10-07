@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run-script fontello && webpack",
-    "start": "webpack-dev-server -d",
+    "start": "SERVER_PATH=https://localhost:8888 webpack-dev-server -d",
     "fontello": "fontello-cli install --config fontello.json --css src/css/ --font src/font/"
   },
   "author": "",
