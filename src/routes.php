@@ -12,6 +12,7 @@ $app->group('/api', function(){
     $this->get('/transaction/{id}', Sracz\Controller\Transaction::class . ':details');
     $this->post('/transaction', Sracz\Controller\Transaction::class . ':add');
     $this->put('/transaction/{id}', Sracz\Controller\Transaction::class . ':update');
+    $this->put('/transaction/{id}/pay', Sracz\Controller\Transaction::class . ':pay');
     $this->delete('/transaction/{id}', Sracz\Controller\Transaction::class . ':delete');
 
     // session
@@ -26,6 +27,9 @@ $app->group('/api', function(){
     $this->delete('/recipient/{id}', Sracz\Controller\Recipient::class . ':delete');
     $this->post('/recipient/{recipient_id}/user/{user_id}', Sracz\Controller\Recipient::class . ':assignUser');
     $this->delete('/recipient/{recipient_id}/user/{user_id}', Sracz\Controller\Recipient::class . ':removeUser');
+
+    // summary
+    $this->get('/summary', Sracz\Controller\Summary::class . ':generate');
 })->add(new \Sracz\Middleware\Authorization($app));
 
 $app->get('/', Sracz\Controller\Main::class . ':main');
