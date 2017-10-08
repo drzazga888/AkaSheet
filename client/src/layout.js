@@ -25,7 +25,7 @@ class Layout extends React.PureComponent {
     }
 
     render() {
-        const { children } = this.props
+        const { children, userEmail } = this.props
         const { menuOpened } = this.state
         return (
             <div className={`app${menuOpened ? ' menu-opened' : ''}`}>
@@ -37,18 +37,22 @@ class Layout extends React.PureComponent {
                         <i className={menuOpened ? 'icon-cancel' : 'icon-menu'}></i>
                     </button>
                     <nav className="app-nav">
-                        <section>
-                            <h3 className="section-title">Menu</h3>
+                        { userEmail ? <section>
+                            <h3 className="section-title">Zarządzaj paragonami</h3>
                             <ul className="menu">
-                                <li><MenuLink onClick={this.closeMenu} to="/sheet">Arkusz</MenuLink></li>
+                                <li><MenuLink onClick={this.closeMenu} to="/entries">Wpisy</MenuLink></li>
                                 <li><MenuLink onClick={this.closeMenu} to="/summary">Podsumowanie</MenuLink></li>
                             </ul>
-                        </section>
+                        </section> : null}
                         <section>
                             <h3 className="section-title">Użytkownik</h3>
-                            <p>Jesteś zalogowany jako<br /><strong>zdzisiek@gmail.com</strong></p>
+                            { userEmail ?
+                            <p>Jesteś zalogowany jako<br /><strong>{userEmail}</strong></p> :
+                            <p>Aktualnie nie jesteś zalogowany</p> }
                             <ul className="menu">
-                                <li><MenuLink onClick={this.closeMenu} to="/logout">Wyloguj się</MenuLink></li>
+                                { !userEmail ? <li><MenuLink onClick={this.closeMenu} to="/sign-up">Zarejestruj się</MenuLink></li> : null }
+                                { !userEmail ? <li><MenuLink onClick={this.closeMenu} to="/sign-in">Zaloguj się</MenuLink></li> : null }
+                                { userEmail ? <li><MenuLink onClick={this.closeMenu} to="/logout">Wyloguj się</MenuLink></li> : null }
                             </ul>
                         </section>
                     </nav>

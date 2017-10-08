@@ -3,3 +3,4 @@ composer.phar
 .idea/
 logs/*
 src/db_config.php
+sql/schema.sql
