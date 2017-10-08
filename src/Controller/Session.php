@@ -16,7 +16,10 @@ class Session
         $inputData = $request->getParsedBody();
         $user = UserModel::where('email', '=', $inputData['email'])->first();
         if($user === null) {
-            return $response->withStatus(404);
+            return $response->withStatus(401);
+        }
+        if(!$user->checkPassword($inputData['password'])) {
+            return $response->withStatus(401);
         }
         $newSession = new SessionModel();
         $newSession->created_at = new \DateTime();

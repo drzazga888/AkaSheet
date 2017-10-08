@@ -8,12 +8,14 @@ use Sracz\Model\MoneyFlow;
 
 class Report
 {
-    private $users;
-
     public static function generate($currentUser)
     {
         $balance = self::getBalance($currentUser);
-        return self::divideMoney($balance);
+        $divide = \Sracz\Algorithm::divideMoney($balance);
+        return [
+            'balance' => $balance,
+            'divide' => $divide
+        ];
     }
 
     private static function getDebts($currentUser)
@@ -55,89 +57,5 @@ class Report
         } else {
             return 0.0;
         }
-    }
-
-    private static function divideMoney($users)
-    {
-        $surplus=[];
-        $debit=[];
-        $withoutop=[];
-        $operations = [];
-        $numberOfUsers = count($users);
-        $precision = 0.01;
-        foreach($users as $user) {
-            if ($user->balance > 0) {
-                $surplus[] = $user;
-            } else if($user->balance<0) {
-                $debit[] = $user;
-            } else {
-                $withoutop[] = $user;
-            }
-        }
-        uasort($surplus, [__CLASS__, 'cmpL2H']);
-        uasort($debit, [__CLASS__, 'cmpH2L']);
-        //var_dump($surplus);die();
-        //podział pieniędzy
-        while(count($withoutop)<$numberOfUsers)
-        {
-            uasort($surplus, [__CLASS__, 'cmpL2H']);
-            uasort($debit, [__CLASS__, 'cmpH2L']);
-            reset($surplus);
-            reset($debit);
-            $keyDebit = key($debit);
-            $keySurplus = key($surplus);
-            $tmp = $debit[$keyDebit]->money+$surplus[$keySurplus]->money;
-            if($tmp>$precision)
-            {
-                $operations[] = new MoneyFlow($debit[$keyDebit], $surplus[$keySurplus], abs($debit[$keyDebit]->balance));
-                if(is_object($debit[$keyDebit])) {
-                    $withoutop[]=clone $debit[$keyDebit];
-                } else {
-                    $withoutop[]=$debit[$keyDebit];
-                }
-                unset($debit[$keyDebit]);
-                $surplus[$keySurplus]->balance=$tmp;
-            }
-            else if($tmp<-$precision) {
-                $operations[] = new MoneyFlow($debit[$keyDebit], $surplus[$keySurplus], abs($surplus[$keySurplus]->balance));
-                if(is_object($surplus[$keySurplus])) {
-                    $withoutop[]=clone $surplus[$keySurplus];
-                } else {
-                    $withoutop[]=$surplus[$keySurplus];
-                }
-                unset($surplus[$keySurplus]);
-                $debit[$keyDebit]->balance=$tmp;
-            }
-            else
-            {
-                $operations[] = new MoneyFlow($debit[$keyDebit], $surplus[$keySurplus], abs($debit[$keyDebit]->balance));
-                if(is_object($debit[$keyDebit])) {
-                    $withoutop[]=clone $debit[$keyDebit];
-                } else {
-                    $withoutop[]=$debit[$keyDebit];
-                }
-                unset($debit[$keyDebit]);
-                if(is_object($surplus[$keySurplus])) {
-                    $withoutop[]=clone $surplus[$keySurplus];
-                } else {
-                    $withoutop[]=$surplus[$keySurplus];
-                }
-                unset($surplus[$keySurplus]);
-            }
-        }
-        return $operations;
-    }
-
-    private static function cmpH2L($a, $b) {
-        if ($a->money == $b->money) {
-            return 0;
-        }
-        return ($a->money < $b->money) ? -1 : 1;
-    }
-    private static function cmpL2H($a, $b) {
-        if ($a->money == $b->money) {
-            return 0;
-        }
-        return ($a->money > $b->money) ? -1 : 1;
     }
 }
