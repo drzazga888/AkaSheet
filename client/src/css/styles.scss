@@ -2,6 +2,7 @@ $mainBackgroundColor: #FFFFFF;
 $secondBackgroundColor: #E3E3E3;
 $headerFontColor: #0077CC;
 $accentColor: #54E1AC;
+$errorColor: #E15454;
 $fontColor: #4F4F4F;
 
 html {
@@ -34,7 +35,7 @@ body {
         flex: 0 0 50px;
         display: flex;
         align-items: center;
-        padding: 0 10px;
+        padding-left: 10px;
 
         .app-header {
             flex: 1 auto;
@@ -92,6 +93,11 @@ body {
             border: none;
             background: none;
             border-radius: 0;
+            color: $fontColor;
+
+            i {
+                margin-right: -12px;
+            }
         }
     }
 
@@ -103,7 +109,7 @@ body {
 
         .app-content {
             flex: 1 auto;
-            padding: 0 10px;
+            padding: 0 10px 10px 10px;
         }
 
         .bottom-bar {
@@ -170,5 +176,70 @@ body {
 
     a {
         color: $headerFontColor;
+    }
+
+    button {
+        border: none;
+        background: $headerFontColor;
+        color: $mainBackgroundColor;
+        padding: 10px;
+        font-size: 1em;
+
+        &:disabled {
+            background: $fontColor;
+            opacity: 0.3;
+        }
+    }
+
+    input {
+        border: none;
+        background: none;
+        border-bottom: solid 2px $accentColor;
+        padding: 5px 0;
+        font-size: 1em;
+
+        &:invalid {
+            border-color: $errorColor;
+        }
+
+        &:disabled {
+            border-color: $fontColor;
+            opacity: 0.3;
+        }
+    }
+
+    fieldset {
+        padding: 0;
+        margin: 0;
+        border: none;
+    }
+
+    .form {
+        position: relative;
+
+        .form-row {
+            display: block;
+            margin: 10px 0;
+
+            .form-row-label {
+                display: block;
+                margin-bottom: 3px;
+                text-transform: uppercase;
+                font-size: 0.8em;
+                font-weight: bold;
+                color: transparentize($fontColor, 0.3);
+            }
+
+            .form-row-content {
+                display: block;
+                width: 100%;
+            }
+        }
+
+        .form-confirm {
+            display: flex;
+            justify-content: center;
+        }
+
     }
 }
