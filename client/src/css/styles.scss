@@ -3,6 +3,7 @@ $secondBackgroundColor: #E3E3E3;
 $headerFontColor: #0077CC;
 $accentColor: #54E1AC;
 $errorColor: #E15454;
+$successColor: $accentColor;
 $fontColor: #4F4F4F;
 
 html {
@@ -64,6 +65,7 @@ body {
             padding: 0 10px;
             box-shadow: rgba(0, 0, 0, 0.7) 0 0 50px;
             border-top: solid 2px $headerFontColor;
+            box-sizing: border-box;
 
             .menu {
                 list-style-type: none;
@@ -99,6 +101,20 @@ body {
                 margin-right: -12px;
             }
         }
+    }
+
+    .app-messages {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column-reverse;
+        z-index: 50;
+        pointer-events: none;
     }
 
     .app-scrollable {
@@ -184,6 +200,7 @@ body {
         color: $mainBackgroundColor;
         padding: 10px;
         font-size: 1em;
+        transition: opacity 200ms, background-color 200ms;
 
         &:disabled {
             background: $fontColor;
@@ -197,6 +214,7 @@ body {
         border-bottom: solid 2px $accentColor;
         padding: 5px 0;
         font-size: 1em;
+        transition: opacity 200ms, border-color 200ms;
 
         &:invalid {
             border-color: $errorColor;
@@ -212,6 +230,7 @@ body {
         padding: 0;
         margin: 0;
         border: none;
+        margin-top: -10px;
     }
 
     .form {
@@ -239,7 +258,52 @@ body {
         .form-confirm {
             display: flex;
             justify-content: center;
+
+            & > * {
+                margin: 0 5px;
+            }
         }
 
+    }
+
+    .message {
+        padding: 10px;
+        margin: 10px;
+        border-style: solid;
+        border-width: 1px 1px 1px 5px;
+        box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 6px;
+        overflow: hidden;
+
+        &.severity-success {
+            background: lighten($successColor, 20%);
+            border-color: $successColor;
+        }
+
+        &.severity-error {
+            background: lighten($errorColor, 20%);
+            border-color: $errorColor;
+        }
+
+        &.message-enter {
+            opacity: 0.01;
+            max-height: 0;
+        }
+          
+        &.message-enter.message-enter-active {
+            opacity: 1;
+            max-height: 400px;
+            transition: opacity 300ms ease-in, max-height 300ms ease-in;
+        }
+          
+        &.message-leave {
+            opacity: 1;
+            max-height: 400px;
+        }
+          
+        &.message-leave.message-leave-active {
+            opacity: 0.01;
+            max-height: 0;
+            transition: opacity 300ms ease-in, max-height 300ms ease-in;
+        }
     }
 }

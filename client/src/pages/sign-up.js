@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as userActions from '../actions/user'
-import { getDidInvalidate } from '../reducers'
+import { getDidInvalidate, getError } from '../reducers'
 
 class SignUpPage extends React.PureComponent {
 
@@ -17,6 +17,12 @@ class SignUpPage extends React.PureComponent {
         }
         this.onSubmit = this.onSubmit.bind(this)
         this.onChangeValue = this.onChangeValue.bind(this)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.didInvalidate && !nextProps.didInvalidate && !nextProps.error) {
+            this.props.history.push('/')
+        }
     }
 
     onSubmit(e) {
@@ -84,7 +90,8 @@ class SignUpPage extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    didInvalidate: getDidInvalidate(state)
+    didInvalidate: getDidInvalidate(state),
+    error: getError(state)
 })
 
 const mapDispatchToProps = {

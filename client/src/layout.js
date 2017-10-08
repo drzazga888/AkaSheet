@@ -1,7 +1,12 @@
 import React from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { NavLink, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import './css/fontello.css'
 import './css/styles.scss'
+
+import { getMessages } from './reducers'
+import Message from './components/message'
 
 const MenuLink = (props) => <NavLink activeClassName="active" {...props} />
 
@@ -25,7 +30,7 @@ class Layout extends React.PureComponent {
     }
 
     render() {
-        const { children, userEmail } = this.props
+        const { children, userEmail, messages } = this.props
         const { menuOpened } = this.state
         return (
             <div className={`app${menuOpened ? ' menu-opened' : ''}`}>
@@ -57,6 +62,14 @@ class Layout extends React.PureComponent {
                         </section>
                     </nav>
                 </header>
+                <ReactCSSTransitionGroup
+                    className="app-messages"
+                    transitionName="message"
+                    transitionEnterTimeout={300}
+                    transitionLeaveTimeout={300}
+                >
+                    {messages.map(m => <Message key={m.date} {...m} />)}
+                </ReactCSSTransitionGroup>
                 <div className="app-scrollable">
                     <main className="app-content">
                         {children}
@@ -77,4 +90,10 @@ class Layout extends React.PureComponent {
 
 }
 
-export default withRouter(Layout)
+const mapStateToProps = (state) => ({
+    messages: getMessages(state)
+})
+
+const mapDispatchToProps = {}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout))
