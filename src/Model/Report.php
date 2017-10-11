@@ -21,7 +21,7 @@ class Report
     private static function getDebts($currentUser)
     {
         return Capsule::table('operation')->join('transaction', 'transaction.id', '=', 'operation.transaction_id')
-                                     ->select(Capsule::raw('sum(amount) as amount, user_id'))
+                                     ->select(Capsule::raw('sum(part*cost) as amount, user_id'))
                                      ->where('transaction.paid', '=', 0)
                                      ->groupBy('user_id')
                                      ->orderBy('user_id', 'asc')

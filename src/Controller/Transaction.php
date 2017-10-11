@@ -86,7 +86,6 @@ class Transaction
             $newOperation = new OperationModel();
             $newOperation->transaction_id = $transactionId;
             $newOperation->user_id = $operation['user_id'];
-            $newOperation->amount = $operation['amount'];
             $newOperation->part = $operation['part'];
             $newOperation->save();
         }
@@ -107,12 +106,10 @@ class Transaction
         if($numberOfUsers < 1) {
             return $operations;
         }
-        $amount = $transaction->cost/$numberOfUsers;
         $part = 1.0/$numberOfUsers;
         foreach($users as $user) {
             $operations[] = [
                 'user_id' => $user->id,
-                'amount' => $amount,
                 'part' => $part,
                 'paid' => $paid
             ];
