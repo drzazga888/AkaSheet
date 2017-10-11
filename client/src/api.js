@@ -24,3 +24,17 @@ export const deleteSession = (token) => fetch(basePath + 'session', {
     },
     method: 'delete'
 })
+
+export const getRecipients = (token) => fetch(basePath + 'recipients', {
+    headers: {
+        'X-Token': token
+    },
+    method: 'get'
+}).then(jsonOrThrow)
+
+export const getTransactions = (token) => fetch(basePath + 'transactions', {
+    headers: {
+        'X-Token': token
+    },
+    method: 'get'
+}).then(jsonOrThrow)

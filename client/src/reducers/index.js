@@ -15,3 +15,5 @@ export const getSessionError = (state) => fromSession.getError(state.session)
 export const getSessionToken = (state) => fromSession.getToken(state.session)
 
 export const getMessages = (state) => fromMessages.getMessages(state.messages)
+
+export const getIsUserLoggedIn = (state) => getSessionToken(state) !== null

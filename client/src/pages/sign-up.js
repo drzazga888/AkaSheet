@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as userActions from '../actions/user'
-import { getUserDidInvalidate, getUserError } from '../reducers'
+import { getUserDidInvalidate, getUserError, getIsUserLoggedIn } from '../reducers'
+import PageAlert, * as fromPageAlert from '../components/page-alert'
 
 class SignUpPage extends React.PureComponent {
 
@@ -49,41 +50,46 @@ class SignUpPage extends React.PureComponent {
         }
     }
 
-    render() {
+    _renderContent() {
         const { email, password, password2, name, surname } = this.state
         const { didInvalidate } = this.props
         return (
+            <form className="form" onSubmit={this.onSubmit}>
+                <fieldset disabled={didInvalidate}>
+                    <label className="form-row">
+                        <span className="form-row-label">Imię</span>
+                        <input className="form-row-content" type="text" value={name} name="name" onChange={this.onChangeValue} required/>
+                    </label>
+                    <label className="form-row">
+                        <span className="form-row-label">Nazwisko</span>
+                        <input className="form-row-content" type="text" value={surname} name="surname" onChange={this.onChangeValue} required/>
+                    </label>
+                    <label className="form-row">
+                        <span className="form-row-label">E-mail</span>
+                        <input className="form-row-content" type="email" value={email} name="email" onChange={this.onChangeValue} required/>
+                    </label>
+                    <label className="form-row">
+                        <span className="form-row-label">Hasło</span>
+                        <input className="form-row-content" type="password" value={password} name="password" onChange={this.onChangeValue} required />
+                    </label>
+                    <label className="form-row">
+                        <span className="form-row-label">Powtórz hasło</span>
+                        <input className="form-row-content" type="password" value={password2} name="password2" onChange={this.onChangeValue} ref="password2" required />
+                    </label>
+                    <label className="form-confirm">
+                        <button type="confirm">{didInvalidate ? 'Czekaj...' : 'Zarejestruj się'}</button>
+                    </label>
+                </fieldset>
+            </form>
+        )
+    }
+
+    render() {
+        const { isUserLoggedIn } = this.props
+        return (
             <div>
-                <section>
-                    <h3 className="section-title">Zarejestruj się</h3>
-                    <form className="form" onSubmit={this.onSubmit}>
-                        <fieldset disabled={didInvalidate}>
-                            <label className="form-row">
-                                <span className="form-row-label">Imię</span>
-                                <input className="form-row-content" type="text" value={name} name="name" onChange={this.onChangeValue} required/>
-                            </label>
-                            <label className="form-row">
-                                <span className="form-row-label">Nazwisko</span>
-                                <input className="form-row-content" type="text" value={surname} name="surname" onChange={this.onChangeValue} required/>
-                            </label>
-                            <label className="form-row">
-                                <span className="form-row-label">E-mail</span>
-                                <input className="form-row-content" type="email" value={email} name="email" onChange={this.onChangeValue} required/>
-                            </label>
-                            <label className="form-row">
-                                <span className="form-row-label">Hasło</span>
-                                <input className="form-row-content" type="password" value={password} name="password" onChange={this.onChangeValue} required />
-                            </label>
-                            <label className="form-row">
-                                <span className="form-row-label">Powtórz hasło</span>
-                                <input className="form-row-content" type="password" value={password2} name="password2" onChange={this.onChangeValue} ref="password2" required />
-                            </label>
-                            <label className="form-confirm">
-                                <button type="confirm">{didInvalidate ? 'Czekaj...' : 'Zarejestruj się'}</button>
-                            </label>
-                        </fieldset>
-                    </form>
-                </section>
+                <h2 className="page-title">Panel rejestracji</h2>
+                { !isUserLoggedIn ? this._renderContent() : <PageAlert>{fromPageAlert.LOG_OUT_REQUIRED}</PageAlert> }
             </div>
         )
     }
@@ -91,7 +97,8 @@ class SignUpPage extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
     didInvalidate: getUserDidInvalidate(state),
-    error: getUserError(state)
+    error: getUserError(state),
+    isUserLoggedIn: getIsUserLoggedIn(state)
 })
 
 const mapDispatchToProps = {

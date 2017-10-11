@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as sessionActions from '../actions/session'
-import { getSessionDidInvalidate, getSessionError } from '../reducers'
+import { getSessionDidInvalidate, getSessionError, getIsUserLoggedIn } from '../reducers'
+import PageAlert, * as fromPageAlert from '../components/page-alert'
 
 class SignInPage extends React.PureComponent {
 
@@ -32,29 +33,34 @@ class SignInPage extends React.PureComponent {
         this.setState({ [target.name]: target.value })
     }
 
-    render() {
+    _renderContent() {
         const { email, password } = this.state
         const { didInvalidate } = this.props
         return (
+            <form className="form" onSubmit={this.onSubmit}>
+                <fieldset disabled={didInvalidate}>
+                    <label className="form-row">
+                        <span className="form-row-label">E-mail</span>
+                        <input className="form-row-content" type="email" value={email} name="email" onChange={this.onChangeValue} required/>
+                    </label>
+                    <label className="form-row">
+                        <span className="form-row-label">Hasło</span>
+                        <input className="form-row-content" type="password" value={password} name="password" onChange={this.onChangeValue} required />
+                    </label>
+                    <label className="form-confirm">
+                        <button type="confirm">{didInvalidate ? 'Czekaj...' : 'Zaloguj się'}</button>
+                    </label>
+                </fieldset>
+            </form>
+        )
+    }
+
+    render() {
+        const { isUserLoggedIn } = this.props
+        return (
             <div>
-                <section>
-                    <h3 className="section-title">Zaloguj się</h3>
-                    <form className="form" onSubmit={this.onSubmit}>
-                        <fieldset disabled={didInvalidate}>
-                            <label className="form-row">
-                                <span className="form-row-label">E-mail</span>
-                                <input className="form-row-content" type="email" value={email} name="email" onChange={this.onChangeValue} required/>
-                            </label>
-                            <label className="form-row">
-                                <span className="form-row-label">Hasło</span>
-                                <input className="form-row-content" type="password" value={password} name="password" onChange={this.onChangeValue} required />
-                            </label>
-                            <label className="form-confirm">
-                                <button type="confirm">{didInvalidate ? 'Czekaj...' : 'Zaloguj się'}</button>
-                            </label>
-                        </fieldset>
-                    </form>
-                </section>
+                <h2 className="page-title">Panel logowania</h2>
+                { !isUserLoggedIn ? this._renderContent() : <PageAlert>{fromPageAlert.LOG_OUT_REQUIRED}</PageAlert> }
             </div>
         )
     }
@@ -62,7 +68,8 @@ class SignInPage extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
     didInvalidate: getSessionDidInvalidate(state),
-    error: getSessionError(state)
+    error: getSessionError(state),
+    isUserLoggedIn: getIsUserLoggedIn(state)
 })
 
 const mapDispatchToProps = {
