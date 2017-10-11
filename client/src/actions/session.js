@@ -1,5 +1,6 @@
 import * as api from '../api'
 import * as messageActions from './messages'
+import { getSessionToken } from '../reducers'
 
 export const SESSION_POST_REQUEST = 'SESSION_POST_REQUEST'
 export const SESSION_POST_SUCCESS = 'SESSION_POST_SUCCESS'
@@ -26,11 +27,13 @@ export const postSession = (form) => (dispatch) => {
     )
 }
 
-export const deleteSession = (form) => (dispatch) => {
+export const deleteSession = () => (dispatch, getState) => {
+    const state = getState()
+    const sessionToken = getSessionToken(state)
     dispatch({ type: SESSION_DELETE_REQUEST })
-    return api.postSession(form).then(
+    return api.deleteSession(sessionToken).then(
         (payload) => {
-            dispatch({ type: SESSION_DELETE_SUCCESS, payload, form })
+            dispatch({ type: SESSION_DELETE_SUCCESS, payload })
             messageActions.addSuccessMessage(MESSAGE_SESSION_DELETE_SUCCESS)(dispatch)
         },
         (error) => {

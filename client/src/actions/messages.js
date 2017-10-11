@@ -22,7 +22,7 @@ export const addErrorFromResponseCode = (code) => {
         case 400:
             return addErrorMessage('Przesłane dane z formularza są błędne!')
         case 401:
-            return addErrorMessage('Błędny login lub hasło!')
+            return addErrorMessage('Błędne dane autoryzacyjne!')
         case 403:
             return addErrorMessage('Zasób nie należy do uwierzytelnionego użytkownika!')
         case 404:

@@ -17,3 +17,10 @@ export const postSession = (payload) => fetch(basePath + 'session', {
     method: 'post',
     body: JSON.stringify(payload)
 }).then(jsonOrThrow)
+
+export const deleteSession = (token) => fetch(basePath + 'session', {
+    headers: {
+        'X-Token': token
+    },
+    method: 'delete'
+})

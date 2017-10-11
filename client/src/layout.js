@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import './css/fontello.css'
 import './css/styles.scss'
 
-import { getMessages } from './reducers'
+import * as sessionActions from './actions/session'
+import { getMessages, getUserEmail } from './reducers'
 import Message from './components/message'
 
 const MenuLink = (props) => <NavLink activeClassName="active" {...props} />
@@ -19,6 +20,7 @@ class Layout extends React.PureComponent {
         }
         this.toggleMenu = this.toggleMenu.bind(this)
         this.closeMenu = this.closeMenu.bind(this)
+        this.logout = this.logout.bind(this)
     }
 
     toggleMenu() {
@@ -27,6 +29,12 @@ class Layout extends React.PureComponent {
 
     closeMenu() {
         this.setState({ menuOpened: false })
+    }
+
+    logout() {
+        this.props.deleteSession()
+        this.closeMenu()
+        this.props.history.push('/')
     }
 
     render() {
@@ -57,7 +65,7 @@ class Layout extends React.PureComponent {
                             <ul className="menu">
                                 { !userEmail ? <li><MenuLink onClick={this.closeMenu} to="/sign-up">Zarejestruj się</MenuLink></li> : null }
                                 { !userEmail ? <li><MenuLink onClick={this.closeMenu} to="/sign-in">Zaloguj się</MenuLink></li> : null }
-                                { userEmail ? <li><MenuLink onClick={this.closeMenu} to="/logout">Wyloguj się</MenuLink></li> : null }
+                                { userEmail ? <li><a href="javascript:void(0)" onClick={this.logout}>Wyloguj się</a></li> : null }
                             </ul>
                         </section>
                     </nav>
@@ -91,9 +99,12 @@ class Layout extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    messages: getMessages(state)
+    messages: getMessages(state),
+    userEmail: getUserEmail(state)
 })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    deleteSession: sessionActions.deleteSession
+}
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout))

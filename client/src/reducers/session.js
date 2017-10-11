@@ -30,7 +30,19 @@ const error = (state = null, action) => {
     }
 }
 
-export default combineReducers({ didInvalidate, error })
+const token = (state = null, action) => {
+    switch (action.type) {
+        case sessionActions.SESSION_POST_SUCCESS:
+            return action.payload.token
+        case sessionActions.SESSION_DELETE_SUCCESS:
+            return null
+        default:
+            return state
+    }
+}
+
+export default combineReducers({ didInvalidate, error, token })
 
 export const getDidInvalidate = (state) => state.didInvalidate
 export const getError = (state) => state.error
+export const getToken = (state) => state.token
