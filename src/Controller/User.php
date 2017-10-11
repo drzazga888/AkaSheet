@@ -15,7 +15,7 @@ class User
         $inputData = $request->getParsedBody();
         $existingUser = UserModel::where('email', '=', $inputData['email'])->get();
         if(count($existingUser) > 0) {
-            return $response->withStatus(400);
+            return $response->withStatus(409);
         }
         $inputData['password'] = UserModel::encryptPassword($inputData['password']);
         $inputData['active'] = 1;
