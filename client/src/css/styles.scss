@@ -50,43 +50,49 @@ body {
             }
         }
 
-        .app-nav {
+        .app-nav-overlay {
             position: absolute;
-            z-index: 50;
-            background: $secondBackgroundColor;
-            overflow: auto;
-            visibility: hidden;
-            width: 200px;
-            right: -200px;
-            bottom: 0;
             top: 50px;
-            margin: 0;
-            transition: right 0.2s, visibility 0.2s;
-            padding: 0 10px;
-            box-shadow: rgba(0, 0, 0, 0.7) 0 0 50px;
-            border-top: solid 2px $headerFontColor;
-            box-sizing: border-box;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0);
+            z-index: 50;
+            visibility: hidden;
+            transition: visibility 300ms, background-color 300ms;
 
-            .menu {
-                list-style-type: none;
-                padding: 0;
+            .app-nav {
+                background: $secondBackgroundColor;
+                overflow: auto;
+                width: 250px;
+                position: absolute;
+                right: -250px;
+                height: 100%;
+                transition: right 300ms;
+                padding: 0 10px;
+                
+                .menu {
+                    list-style-type: none;
+                    padding: 0;
 
-                li {
-                    margin: 5px 0;
+                    li {
+                        margin: 5px 0;
 
-                    a {
-                        border-left: solid 6px $accentColor;
-                        text-decoration: none;
-                        display: block;
-                        padding: 10px;
-                        color: $fontColor;
+                        a {
+                            border-left: solid 6px $accentColor;
+                            text-decoration: none;
+                            display: block;
+                            padding: 10px;
+                            color: $fontColor;
 
-                        &.active {
-                            background: $accentColor;
+                            &.active {
+                                background: $accentColor;
+                            }
                         }
                     }
                 }
             }
+
         }
 
         .menu-toggler {
@@ -99,6 +105,19 @@ body {
 
             i {
                 margin-right: -12px;
+            }
+        }
+    }
+
+    &.menu-opened {
+        .top-bar {
+            .app-nav-overlay {
+                visibility: visible;
+                background-color: rgba(0, 0, 0, 0.7);
+
+                .app-nav {
+                    right: 0;
+                }
             }
         }
     }
@@ -132,15 +151,6 @@ body {
             flex: 0 auto;
             background-color: $secondBackgroundColor;
             padding: 0 10px;
-        }
-    }
-
-    &.menu-opened {
-        .top-bar {
-            .app-nav {
-                visibility: visible;
-                right: 0;
-            }
         }
     }
 

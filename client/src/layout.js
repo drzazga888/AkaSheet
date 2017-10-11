@@ -49,26 +49,28 @@ class Layout extends React.PureComponent {
                     <button className="menu-toggler" onClick={this.toggleMenu}>
                         <i className={menuOpened ? 'icon-cancel' : 'icon-menu'}></i>
                     </button>
-                    <nav className="app-nav">
-                        { userEmail ? <section>
-                            <h3 className="section-title">Zarządzaj paragonami</h3>
-                            <ul className="menu">
-                                <li><MenuLink onClick={this.closeMenu} to="/entries">Wpisy</MenuLink></li>
-                                <li><MenuLink onClick={this.closeMenu} to="/summary">Podsumowanie</MenuLink></li>
-                            </ul>
-                        </section> : null}
-                        <section>
-                            <h3 className="section-title">Użytkownik</h3>
-                            { userEmail ?
-                            <p>Jesteś zalogowany jako<br /><strong>{userEmail}</strong></p> :
-                            <p>Aktualnie nie jesteś zalogowany</p> }
-                            <ul className="menu">
-                                { !userEmail ? <li><MenuLink onClick={this.closeMenu} to="/sign-up">Zarejestruj się</MenuLink></li> : null }
-                                { !userEmail ? <li><MenuLink onClick={this.closeMenu} to="/sign-in">Zaloguj się</MenuLink></li> : null }
-                                { userEmail ? <li><a href="javascript:void(0)" onClick={this.logout}>Wyloguj się</a></li> : null }
-                            </ul>
-                        </section>
-                    </nav>
+                    <div className="app-nav-overlay" onClick={this.closeMenu}>
+                        <nav className="app-nav" onClick={e => e.stopPropagation()}>
+                            { userEmail ? <section>
+                                <h3 className="section-title">Zarządzaj paragonami</h3>
+                                <ul className="menu">
+                                    <li><MenuLink onClick={this.closeMenu} to="/entries">Wpisy</MenuLink></li>
+                                    <li><MenuLink onClick={this.closeMenu} to="/summary">Podsumowanie</MenuLink></li>
+                                </ul>
+                            </section> : null}
+                            <section>
+                                <h3 className="section-title">Użytkownik</h3>
+                                { userEmail ?
+                                <p>Jesteś zalogowany jako<br /><strong>{userEmail}</strong></p> :
+                                <p>Aktualnie nie jesteś zalogowany</p> }
+                                <ul className="menu">
+                                    { !userEmail ? <li><MenuLink onClick={this.closeMenu} to="/sign-up">Zarejestruj się</MenuLink></li> : null }
+                                    { !userEmail ? <li><MenuLink onClick={this.closeMenu} to="/sign-in">Zaloguj się</MenuLink></li> : null }
+                                    { userEmail ? <li><a href="javascript:void(0)" onClick={this.logout}>Wyloguj się</a></li> : null }
+                                </ul>
+                            </section>
+                        </nav>
+                    </div>
                 </header>
                 <ReactCSSTransitionGroup
                     className="app-messages"
