@@ -15,7 +15,7 @@ class Recipient
         $inputData = $request->getParsedBody();
         $existingRecipient = RecipientModel::with('users')->where('name', '=', $inputData['name'])->get();
         if(count($existingRecipient) > 0) {
-            return $response->withStatus(400);
+            return $response->withStatus(409);
         }
         $newRecipient = RecipientModel::create($inputData);
         return $response->withJson($newRecipient);
@@ -53,7 +53,7 @@ class Recipient
     public function assignUser($request, $response, $args) {
         $recipient = RecipientModel::find((int)$args['recipient_id']);
         if($recipient->users->find((int)$args['user_id']) !== null) {
-            return $response->withStatus(400);
+            return $response->withStatus(409);
         }
         $recipient->users()->attach((int)$args['user_id']);
         return $this->info($request, $response, $args);

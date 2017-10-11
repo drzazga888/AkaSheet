@@ -13,7 +13,6 @@ class Summary
 
     public function generate($request, $response, $args) {
         $report = ReportModel::generate($this->container->currentUser);
-        var_dump($report);die();
         return $response->withJson($report);
     }
 }
