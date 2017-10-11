@@ -1,4 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import * as sessionActions from '../actions/session'
+import { getSessionDidInvalidate, getSessionError } from '../reducers'
 
 class SignInPage extends React.PureComponent {
 
@@ -12,10 +16,17 @@ class SignInPage extends React.PureComponent {
         this.onChangeValue = this.onChangeValue.bind(this)
     }
 
-    onSubmit(e) {
-        e.preventDefault();
-        alert('login')
+    componentWillReceiveProps(nextProps) {
+        if (this.props.didInvalidate && !nextProps.didInvalidate && !nextProps.error) {
+            this.props.history.push('/entries')
+        }
     }
+
+    onSubmit(e) {
+        e.preventDefault()
+        this.props.postSession(this.state)
+    }
+
 
     onChangeValue({ target }) {
         this.setState({ [target.name]: target.value })
@@ -23,22 +34,25 @@ class SignInPage extends React.PureComponent {
 
     render() {
         const { email, password } = this.state
+        const { didInvalidate } = this.props
         return (
             <div>
                 <section>
                     <h3 className="section-title">Zaloguj się</h3>
                     <form className="form" onSubmit={this.onSubmit}>
-                        <label className="form-row">
-                            <span className="form-row-label">E-mail</span>
-                            <input className="form-row-content" type="email" value={email} name="email" onChange={this.onChangeValue} required/>
-                        </label>
-                        <label className="form-row">
-                            <span className="form-row-label">Hasło</span>
-                            <input className="form-row-content" type="password" value={password} name="password" onChange={this.onChangeValue} required />
-                        </label>
-                        <label className="form-confirm">
-                            <button type="confirm">Zaloguj się</button>
-                        </label>
+                        <fieldset disabled={didInvalidate}>
+                            <label className="form-row">
+                                <span className="form-row-label">E-mail</span>
+                                <input className="form-row-content" type="email" value={email} name="email" onChange={this.onChangeValue} required/>
+                            </label>
+                            <label className="form-row">
+                                <span className="form-row-label">Hasło</span>
+                                <input className="form-row-content" type="password" value={password} name="password" onChange={this.onChangeValue} required />
+                            </label>
+                            <label className="form-confirm">
+                                <button type="confirm">{didInvalidate ? 'Czekaj...' : 'Zaloguj się'}</button>
+                            </label>
+                        </fieldset>
                     </form>
                 </section>
             </div>
@@ -46,4 +60,13 @@ class SignInPage extends React.PureComponent {
     }
 }
 
-export default SignInPage
+const mapStateToProps = (state) => ({
+    didInvalidate: getSessionDidInvalidate(state),
+    error: getSessionError(state)
+})
+
+const mapDispatchToProps = {
+    postSession: sessionActions.postSession
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage)

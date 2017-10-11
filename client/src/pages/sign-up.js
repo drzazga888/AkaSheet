@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as userActions from '../actions/user'
-import { getDidInvalidate, getError } from '../reducers'
+import { getUserDidInvalidate, getUserError } from '../reducers'
 
 class SignUpPage extends React.PureComponent {
 
@@ -79,7 +79,7 @@ class SignUpPage extends React.PureComponent {
                                 <input className="form-row-content" type="password" value={password2} name="password2" onChange={this.onChangeValue} ref="password2" required />
                             </label>
                             <label className="form-confirm">
-                                <button type="confirm">{didInvalidate ? 'Rejestrowanie...' : 'Zarejestruj się'}</button>
+                                <button type="confirm">{didInvalidate ? 'Czekaj...' : 'Zarejestruj się'}</button>
                             </label>
                         </fieldset>
                     </form>
@@ -90,8 +90,8 @@ class SignUpPage extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    didInvalidate: getDidInvalidate(state),
-    error: getError(state)
+    didInvalidate: getUserDidInvalidate(state),
+    error: getUserError(state)
 })
 
 const mapDispatchToProps = {
