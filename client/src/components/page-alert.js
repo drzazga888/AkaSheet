@@ -6,7 +6,7 @@ export const LOG_OUT_REQUIRED = <span>Zawartośc na tej stronie dostępna jest t
 
 const PageAlert = ({ children }) => (
     <div className="page-alert">
-        <i className="page-alert-icon icon-attention"></i>
+        <i className="page-alert-icon icon-emo-cry"></i>
         <div className="page-alert-message">{children}</div>
     </div>
 )

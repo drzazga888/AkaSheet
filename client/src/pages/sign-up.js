@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import * as userActions from '../actions/user'
-import { getUserDidInvalidate, getUserError, getIsUserLoggedIn } from '../reducers'
+import * as userActions from '../actions/users'
+import { getUserDidInvalidate, getUserError, getSessionUserId } from '../reducers'
 import PageAlert, * as fromPageAlert from '../components/page-alert'
 
 class SignUpPage extends React.PureComponent {
@@ -98,7 +98,7 @@ class SignUpPage extends React.PureComponent {
 const mapStateToProps = (state) => ({
     didInvalidate: getUserDidInvalidate(state),
     error: getUserError(state),
-    isUserLoggedIn: getIsUserLoggedIn(state)
+    isUserLoggedIn: getSessionUserId(state) !== null
 })
 
 const mapDispatchToProps = {

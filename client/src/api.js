@@ -10,6 +10,13 @@ export const postUser = (payload) => fetch(basePath + 'user', {
     body: JSON.stringify(payload)
 }).then(jsonOrThrow)
 
+export const getUsers = (token) => fetch(basePath + 'user', {
+    headers: {
+        'X-Token': token
+    },
+    method: 'get'
+}).then(jsonOrThrow)
+
 export const postSession = (payload) => fetch(basePath + 'session', {
     headers: {
         'Content-Type': 'application/json'
@@ -25,14 +32,14 @@ export const deleteSession = (token) => fetch(basePath + 'session', {
     method: 'delete'
 })
 
-export const getRecipients = (token) => fetch(basePath + 'recipients', {
+export const getRecipients = (token) => fetch(basePath + 'recipient', {
     headers: {
         'X-Token': token
     },
     method: 'get'
 }).then(jsonOrThrow)
 
-export const getTransactions = (token) => fetch(basePath + 'transactions', {
+export const getTransactions = (token) => fetch(basePath + 'transaction', {
     headers: {
         'X-Token': token
     },

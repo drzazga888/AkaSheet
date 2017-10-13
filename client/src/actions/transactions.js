@@ -2,9 +2,9 @@ import * as api from '../api'
 import * as messageActions from './messages'
 import { getSessionToken } from '../reducers'
 
-export const TRANSACTIONS_GET_REQUEST = 'RECIPIENTS_GET_REQUEST'
-export const TRANSACTIONS_GET_SUCCESS = 'RECIPIENTS_GET_SUCCESS'
-export const TRANSACTIONS_GET_FAILURE = 'RECIPIENTS_GET_FAILURE'
+export const TRANSACTIONS_GET_REQUEST = 'TRANSACTIONS_GET_REQUEST'
+export const TRANSACTIONS_GET_SUCCESS = 'TRANSACTIONS_GET_SUCCESS'
+export const TRANSACTIONS_GET_FAILURE = 'TRANSACTIONS_GET_FAILURE'
 
 export const getTransactions = () => (dispatch, getState) => {
     const state = getState()

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as sessionActions from '../actions/session'
-import { getSessionDidInvalidate, getSessionError, getIsUserLoggedIn } from '../reducers'
+import { getSessionDidInvalidate, getSessionError, getSessionUserId } from '../reducers'
 import PageAlert, * as fromPageAlert from '../components/page-alert'
 
 class SignInPage extends React.PureComponent {
@@ -69,7 +69,7 @@ class SignInPage extends React.PureComponent {
 const mapStateToProps = (state) => ({
     didInvalidate: getSessionDidInvalidate(state),
     error: getSessionError(state),
-    isUserLoggedIn: getIsUserLoggedIn(state)
+    isUserLoggedIn: getSessionUserId(state) !== null
 })
 
 const mapDispatchToProps = {

@@ -1,9 +1,12 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 
-const NotFoundPage = () => (
+import PageAlert from '../components/page-alert'
+
+const NotFoundPage = ({ location }) => (
     <div>
-        <p>Not found</p>
+        <PageAlert>Strona <strong>{location.pathname}</strong> nie istnieje!</PageAlert>
     </div>
 )
 
-export default NotFoundPage
+export default withRouter(NotFoundPage)

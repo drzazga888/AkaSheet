@@ -343,4 +343,17 @@ body {
             display: inline-block;
         }
     }
+
+    .indeterminate {
+        opacity: 0.7;
+        text-align: center;
+        padding: 60px 20px;
+
+        .indeterminate-spin {
+            font-size: 5em;
+            opacity: 0.5;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+    }
 }
