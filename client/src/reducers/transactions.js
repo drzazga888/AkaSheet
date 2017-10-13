@@ -29,7 +29,7 @@ const error = (state = null, action) => {
 const entries = (state = null, action) => {
     switch (action.type) {
         case transactionsActions.TRANSACTIONS_GET_SUCCESS:
-            return action.entities.transactions
+            return Object.assign({}, action.entities.transactions, state)
         case sessionActions.SESSION_DELETE_SUCCESS:
             return null
         default:
@@ -38,3 +38,7 @@ const entries = (state = null, action) => {
 }
 
 export default combineReducers({ didInvalidate, error, entries })
+
+export const getDidInvalidate = (state) => state.didInvalidate
+export const getError = (state) => state.error
+export const getTransactions = (state) => state.entries

@@ -19,4 +19,12 @@ export const getSessionToken = (state) => fromSession.getToken(state.session)
 export const getSessionUserId = (state) => fromSession.getUserId(state.session)
 export const getSessionUser = (state) => getUser(getSessionUserId(state), state)
 
+export const getRecipientsDidInvalidate = (state) => fromRecipients.getDidInvalidate(state.recipients)
+export const getRecipientsError = (state) => fromRecipients.getError(state.recipients)
+export const getRecipients = (state) => fromRecipients.getRecipients(state.recipients)
+
+export const getTransactionsDidInvalidate = (state) => fromTransactions.getDidInvalidate(state.transactions)
+export const getTransactionsError = (state) => fromTransactions.getError(state.transactions)
+export const getTransactions = (state) => fromTransactions.getTransactions(state.transactions)
+
 export const getMessages = (state) => fromMessages.getMessages(state.messages)

@@ -25,8 +25,8 @@ export const postSession = (form) => (dispatch, getState) => {
             dispatch(Object.assign({ type: SESSION_POST_SUCCESS, form }, normalize(payload, schemas.session)))
             messageActions.addSuccessMessage(MESSAGE_SESSION_POST_SUCCESS)(dispatch)
             return Promise.all([
-                recipientsActions.getRecipients()(dispatch, getState),
-                transactionsActions.getTransactions()(dispatch, getState)
+                transactionsActions.getTransactions()(dispatch, getState),
+                recipientsActions.getRecipients()(dispatch, getState)
             ])
         },
         (error) => {

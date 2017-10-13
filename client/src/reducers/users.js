@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import * as usersActions from '../actions/users'
 import * as sessionActions from '../actions/session'
 import * as recipientsActions from '../actions/recipients'
+import * as transactionsActions from '../actions/transactions'
 
 const didInvalidate = (state = false, action) => {
     switch (action.type) {
@@ -30,8 +31,8 @@ const error = (state = null, action) => {
 const entries = (state = null, action) => {
     switch (action.type) {
         case sessionActions.SESSION_POST_SUCCESS:
-            return action.entities.users
         case recipientsActions.RECIPIENTS_GET_SUCCESS:
+        case transactionsActions.TRANSACTIONS_GET_SUCCESS:
             return Object.assign({}, action.entities.users, state)
         case sessionActions.SESSION_DELETE_SUCCESS:
             return null

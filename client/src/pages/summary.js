@@ -9,7 +9,7 @@ const SummaryPage = ({ isUserLoggedIn }) => {
     return (
         <div>
             <h2 className="page-title">Podsumowanie</h2>
-            { isUserLoggedIn ? <Indeterminate /> : <PageAlert>{fromPageAlert.SIGN_IN_REQUIRED}</PageAlert> }
+            { isUserLoggedIn ? <PageAlert>Jeszcze to robimy, sory</PageAlert> : <PageAlert>{fromPageAlert.SIGN_IN_REQUIRED}</PageAlert> }
         </div>
     )
 }
