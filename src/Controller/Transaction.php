@@ -31,7 +31,7 @@ class Transaction
     }
 
     public function all($request, $response, $args) {
-        $transactions = TransactionModel::with('buyer', 'recipient')->get();
+        $transactions = TransactionModel::with('buyer', 'operations', 'recipient')->get();
         return $response->withJson($transactions);
     }
 
