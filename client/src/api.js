@@ -10,13 +10,6 @@ export const postUser = (payload) => fetch(basePath + 'user', {
     body: JSON.stringify(payload)
 }).then(jsonOrThrow)
 
-export const getUsers = (token) => fetch(basePath + 'user', {
-    headers: {
-        'X-Token': token
-    },
-    method: 'get'
-}).then(jsonOrThrow)
-
 export const postSession = (payload) => fetch(basePath + 'session', {
     headers: {
         'Content-Type': 'application/json'

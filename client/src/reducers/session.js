@@ -33,7 +33,7 @@ const error = (state = null, action) => {
 const token = (state = null, action) => {
     switch (action.type) {
         case sessionActions.SESSION_POST_SUCCESS:
-            return action.payload.token
+            return action.result.token
         case sessionActions.SESSION_DELETE_SUCCESS:
             return null
         default:
@@ -44,7 +44,7 @@ const token = (state = null, action) => {
 const userId = (state = null, action) => {
     switch (action.type) {
         case sessionActions.SESSION_POST_SUCCESS:
-            return action.payload.user.id
+            return action.result.user_id
         case sessionActions.SESSION_DELETE_SUCCESS:
             return null
         default:

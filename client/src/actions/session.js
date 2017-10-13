@@ -1,6 +1,8 @@
+import { normalize } from 'normalizr'
+
 import * as api from '../api'
+import * as schemas from '../schemas'
 import * as messageActions from './messages'
-import * as usersActions from './users'
 import * as transactionsActions from './transactions'
 import * as recipientsActions from './recipients'
 import { getSessionToken } from '../reducers'
@@ -20,10 +22,9 @@ export const postSession = (form) => (dispatch, getState) => {
     dispatch({ type: SESSION_POST_REQUEST })
     return api.postSession(form).then(
         (payload) => {
-            dispatch({ type: SESSION_POST_SUCCESS, payload, form })
+            dispatch(Object.assign({ type: SESSION_POST_SUCCESS, form }, normalize(payload, schemas.session)))
             messageActions.addSuccessMessage(MESSAGE_SESSION_POST_SUCCESS)(dispatch)
             return Promise.all([
-                usersActions.getUsers()(dispatch, getState),
                 recipientsActions.getRecipients()(dispatch, getState),
                 transactionsActions.getTransactions()(dispatch, getState)
             ])

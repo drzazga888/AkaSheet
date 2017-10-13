@@ -1,4 +1,7 @@
+import { normalize } from 'normalizr'
+
 import * as api from '../api'
+import * as schemas from '../schemas'
 import * as messageActions from './messages'
 import { getSessionToken } from '../reducers'
 
@@ -12,7 +15,7 @@ export const getTransactions = () => (dispatch, getState) => {
     dispatch({ type: TRANSACTIONS_GET_REQUEST })
     return api.getTransactions(sessionToken).then(
         (payload) => {
-            dispatch({ type: TRANSACTIONS_GET_SUCCESS, payload })
+            dispatch(Object.assign({ type: TRANSACTIONS_GET_SUCCESS }, normalize(payload, [schemas.transaction])))
         },
         (error) => {
             dispatch({ type: TRANSACTIONS_GET_FAILURE, error })
