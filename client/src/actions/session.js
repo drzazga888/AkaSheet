@@ -1,4 +1,5 @@
 import { normalize } from 'normalizr'
+import { push } from 'react-router-redux'
 
 import * as api from '../api'
 import * as schemas from '../schemas'
@@ -23,11 +24,8 @@ export const postSession = (form) => (dispatch, getState) => {
     return api.postSession(form).then(
         (payload) => {
             dispatch(Object.assign({ type: SESSION_POST_SUCCESS, form }, normalize(payload, schemas.session)))
+            dispatch(push('/entries'))
             messageActions.addSuccessMessage(MESSAGE_SESSION_POST_SUCCESS)(dispatch)
-            return Promise.all([
-                transactionsActions.getTransactions()(dispatch, getState),
-                recipientsActions.getRecipients()(dispatch, getState)
-            ])
         },
         (error) => {
             dispatch({ type: SESSION_POST_FAILURE, error })
@@ -43,6 +41,7 @@ export const deleteSession = () => (dispatch, getState) => {
     return api.deleteSession(sessionToken).then(
         (payload) => {
             dispatch({ type: SESSION_DELETE_SUCCESS, payload })
+            dispatch(push('/'))
             messageActions.addSuccessMessage(MESSAGE_SESSION_DELETE_SUCCESS)(dispatch)
         },
         (error) => {

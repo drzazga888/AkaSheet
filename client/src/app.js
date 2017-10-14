@@ -1,8 +1,10 @@
 import React from 'react'
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import reduxThunk from 'redux-thunk'
+import createHistory from 'history/createBrowserHistory'
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
 
 import Layout from './layout'
 import HomePage from './pages/home'
@@ -12,24 +14,28 @@ import ReceiptsPage from './pages/receipts'
 import SummaryPage from './pages/summary'
 import NotFoundPage from './pages/not-found'
 import reducer from './reducers'
+import sessionSaver from './middlewares/session-saver'
+import withSessionRestorer from './hoc-factories/session-restorer'
+import withLogoutEnforcer from './hoc-factories/logout-enforcer'
 
+const history = createHistory()
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducer, composeEnhancers(applyMiddleware(reduxThunk)))
+const store = createStore(reducer, composeEnhancers(applyMiddleware(reduxThunk, routerMiddleware(history), sessionSaver)))
 
 const App = () => (
     <Provider store={store}>
-        <Router>
+        <ConnectedRouter history={history}>
             <Layout>
                 <Switch>
                     <Route exact path="/" component={HomePage} />
-                    <Route path="/sign-in" component={SignInPage} />
-                    <Route path="/sign-up" component={SignUpPage} />
-                    <Route path="/entries" component={ReceiptsPage} />
-                    <Route path="/summary" component={SummaryPage} />
+                    <Route path="/sign-in" component={withLogoutEnforcer(SignInPage)} />
+                    <Route path="/sign-up" component={withLogoutEnforcer(SignUpPage)} />
+                    <Route path="/entries" component={withSessionRestorer(ReceiptsPage)} />
+                    <Route path="/summary" component={withSessionRestorer(SummaryPage)} />
                     <Route component={NotFoundPage} />
                 </Switch>
             </Layout>
-        </Router>
+        </ConnectedRouter>
     </Provider>
 )
 

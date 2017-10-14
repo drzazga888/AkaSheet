@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as userActions from '../actions/users'
-import { getUserDidInvalidate, getUserError, getSessionUserId } from '../reducers'
-import PageAlert, * as fromPageAlert from '../components/page-alert'
+import { getUserDidInvalidate, getUserError } from '../reducers'
 
 class SignUpPage extends React.PureComponent {
 
@@ -18,12 +17,6 @@ class SignUpPage extends React.PureComponent {
         }
         this.onSubmit = this.onSubmit.bind(this)
         this.onChangeValue = this.onChangeValue.bind(this)
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.didInvalidate && !nextProps.didInvalidate && !nextProps.error) {
-            this.props.history.push('/')
-        }
     }
 
     onSubmit(e) {
@@ -50,46 +43,39 @@ class SignUpPage extends React.PureComponent {
         }
     }
 
-    _renderContent() {
+    render() {
         const { email, password, password2, name, surname } = this.state
         const { didInvalidate } = this.props
         return (
-            <form className="form" onSubmit={this.onSubmit}>
-                <fieldset disabled={didInvalidate}>
-                    <label className="form-row">
-                        <span className="form-row-label">Imię</span>
-                        <input className="form-row-content" type="text" value={name} name="name" onChange={this.onChangeValue} required/>
-                    </label>
-                    <label className="form-row">
-                        <span className="form-row-label">Nazwisko</span>
-                        <input className="form-row-content" type="text" value={surname} name="surname" onChange={this.onChangeValue} required/>
-                    </label>
-                    <label className="form-row">
-                        <span className="form-row-label">E-mail</span>
-                        <input className="form-row-content" type="email" value={email} name="email" onChange={this.onChangeValue} required/>
-                    </label>
-                    <label className="form-row">
-                        <span className="form-row-label">Hasło</span>
-                        <input className="form-row-content" type="password" value={password} name="password" onChange={this.onChangeValue} required />
-                    </label>
-                    <label className="form-row">
-                        <span className="form-row-label">Powtórz hasło</span>
-                        <input className="form-row-content" type="password" value={password2} name="password2" onChange={this.onChangeValue} ref="password2" required />
-                    </label>
-                    <label className="form-confirm">
-                        <button type="confirm">{didInvalidate ? 'Czekaj...' : 'Zarejestruj się'}</button>
-                    </label>
-                </fieldset>
-            </form>
-        )
-    }
-
-    render() {
-        const { isUserLoggedIn } = this.props
-        return (
             <div>
                 <h2 className="page-title">Panel rejestracji</h2>
-                { !isUserLoggedIn ? this._renderContent() : <PageAlert>{fromPageAlert.LOG_OUT_REQUIRED}</PageAlert> }
+                <form className="form" onSubmit={this.onSubmit}>
+                    <fieldset disabled={didInvalidate}>
+                        <label className="form-row">
+                            <span className="form-row-label">Imię</span>
+                            <input className="form-row-content" type="text" value={name} name="name" onChange={this.onChangeValue} required/>
+                        </label>
+                        <label className="form-row">
+                            <span className="form-row-label">Nazwisko</span>
+                            <input className="form-row-content" type="text" value={surname} name="surname" onChange={this.onChangeValue} required/>
+                        </label>
+                        <label className="form-row">
+                            <span className="form-row-label">E-mail</span>
+                            <input className="form-row-content" type="email" value={email} name="email" onChange={this.onChangeValue} required/>
+                        </label>
+                        <label className="form-row">
+                            <span className="form-row-label">Hasło</span>
+                            <input className="form-row-content" type="password" value={password} name="password" onChange={this.onChangeValue} required />
+                        </label>
+                        <label className="form-row">
+                            <span className="form-row-label">Powtórz hasło</span>
+                            <input className="form-row-content" type="password" value={password2} name="password2" onChange={this.onChangeValue} ref="password2" required />
+                        </label>
+                        <label className="form-confirm">
+                            <button type="confirm">{didInvalidate ? 'Czekaj...' : 'Zarejestruj się'}</button>
+                        </label>
+                    </fieldset>
+                </form>
             </div>
         )
     }
@@ -97,8 +83,7 @@ class SignUpPage extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
     didInvalidate: getUserDidInvalidate(state),
-    error: getUserError(state),
-    isUserLoggedIn: getSessionUserId(state) !== null
+    error: getUserError(state)
 })
 
 const mapDispatchToProps = {

@@ -33,6 +33,7 @@ const entries = (state = null, action) => {
         case sessionActions.SESSION_POST_SUCCESS:
         case recipientsActions.RECIPIENTS_GET_SUCCESS:
         case transactionsActions.TRANSACTIONS_GET_SUCCESS:
+        case usersActions.USER_GET_SUCCESS:
             return Object.assign({}, action.entities.users, state)
         case sessionActions.SESSION_DELETE_SUCCESS:
             return null

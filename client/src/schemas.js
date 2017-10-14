@@ -14,3 +14,8 @@ export const transaction = new schema.Entity('transactions', {
     buyer: user,
     recipient
 })
+
+export const extendedUser = new schema.Entity('users', {
+    recipients: [recipient],
+    transactions: [transaction]
+})

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { routerReducer as router } from 'react-router-redux'
 
 import users, * as fromUsers from './users'
 import session, * as fromSession from './session'
@@ -6,7 +7,7 @@ import messages, * as fromMessages from './messages'
 import recipients, * as fromRecipients from './recipients'
 import transactions, * as fromTransactions from './transactions'
 
-export default combineReducers({ users, session, messages, recipients, transactions })
+export default combineReducers({ users, session, messages, recipients, transactions, router })
 
 export const getUserDidInvalidate = (state) => fromUsers.getDidInvalidate(state.users)
 export const getUserError = (state) => fromUsers.getError(state.users)

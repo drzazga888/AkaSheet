@@ -35,7 +35,6 @@ class Layout extends React.PureComponent {
     logout() {
         this.props.deleteSession()
         this.closeMenu()
-        this.props.history.push('/')
     }
 
     render() {
