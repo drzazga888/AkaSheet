@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import * as constants from '../constants'
 import * as userActions from '../actions/users'
 import { getSessionUserId, getSessionDidInvalidate, getSessionError } from '../reducers'
 import PageAlert, * as fromPageAlert from '../components/page-alert'
@@ -9,7 +10,7 @@ import Indeterminate from '../components/indeterminate'
 const mapStateToProps = (state) => ({
     isUserLoggedIn: getSessionUserId(state) !== null,
     sessionDidInvalidate: getSessionDidInvalidate(state),
-    sessionDidError: getSessionError(state)
+    sessionError: getSessionError(state)
 })
 
 const mapDispatchToProps = {
@@ -32,15 +33,15 @@ export default (PageComponent) => connect(mapStateToProps, mapDispatchToProps)(
         }
 
         _hijackRenderMessage() {
-            const { isUserLoggedIn, sessionDidInvalidate, sessionDidError } = this.props
+            const { isUserLoggedIn, sessionDidInvalidate, sessionError } = this.props
             if (sessionDidInvalidate) {
-                return <Indeterminate>Logowanie...</Indeterminate>
-            } else if (sessionDidError === 401) {
-                return <PageAlert>Sesja wygasła. Musisz zalogować się ponownie.</PageAlert>
-            } else if (sessionDidError) {
-                return <PageAlert>{fromPageAlert.GENERAL_ERROR}</PageAlert>
+                return <Indeterminate />
+            } else if (sessionError === 401) {
+                return <PageAlert>{constants.MESSAGE_PAGE_SESSION_GONE}</PageAlert>
+            } else if (sessionError) {
+                return <PageAlert>{constants.MESSAGE_PAGE_ERROR(sessionError)}</PageAlert>
             } else if (!isUserLoggedIn) {
-                return <PageAlert>{fromPageAlert.SIGN_IN_REQUIRED}</PageAlert>
+                return <PageAlert>{constants.MESSAGE_PAGE_SIGN_IN_NEEDED}</PageAlert>
             } else {
                 return null
             }
@@ -51,7 +52,7 @@ export default (PageComponent) => connect(mapStateToProps, mapDispatchToProps)(
             if (msg) {
                 return (
                     <div>
-                        <h2 className="page-title">Przywracanie sesji</h2>
+                        <h2 className="page-title">Zarządzanie sesją</h2>
                         {msg}
                     </div>
                 )

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as sessionActions from '../actions/session'
-import { getSessionDidInvalidate, getSessionError } from '../reducers'
+import { getSessionDidInvalidate } from '../reducers'
 
 class SignInPage extends React.PureComponent {
 
@@ -52,8 +52,7 @@ class SignInPage extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    didInvalidate: getSessionDidInvalidate(state),
-    error: getSessionError(state)
+    didInvalidate: getSessionDidInvalidate(state)
 })
 
 const mapDispatchToProps = {

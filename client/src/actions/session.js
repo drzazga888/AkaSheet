@@ -1,6 +1,7 @@
 import { normalize } from 'normalizr'
 import { push } from 'react-router-redux'
 
+import * as constants from '../constants'
 import * as api from '../api'
 import * as schemas from '../schemas'
 import * as messageActions from './messages'
@@ -16,16 +17,13 @@ export const SESSION_DELETE_REQUEST = 'SESSION_DELETE_REQUEST'
 export const SESSION_DELETE_SUCCESS = 'SESSION_DELETE_SUCCESS'
 export const SESSION_DELETE_FAILURE = 'SESSION_DELETE_FAILURE'
 
-const MESSAGE_SESSION_POST_SUCCESS = 'Zostałeś zalogowany pomyślnie!'
-const MESSAGE_SESSION_DELETE_SUCCESS = 'Zostałeś poprawnie wylogowany.'
-
 export const postSession = (form) => (dispatch, getState) => {
     dispatch({ type: SESSION_POST_REQUEST })
     return api.postSession(form).then(
         (payload) => {
             dispatch(Object.assign({ type: SESSION_POST_SUCCESS, form }, normalize(payload, schemas.session)))
             dispatch(push('/entries'))
-            messageActions.addSuccessMessage(MESSAGE_SESSION_POST_SUCCESS)(dispatch)
+            messageActions.addSuccessMessage(constants.MESSAGE_SESSION_POST_SUCCESS)(dispatch)
         },
         (error) => {
             dispatch({ type: SESSION_POST_FAILURE, error })
@@ -42,7 +40,7 @@ export const deleteSession = () => (dispatch, getState) => {
         (payload) => {
             dispatch({ type: SESSION_DELETE_SUCCESS, payload })
             dispatch(push('/'))
-            messageActions.addSuccessMessage(MESSAGE_SESSION_DELETE_SUCCESS)(dispatch)
+            messageActions.addSuccessMessage(constants.MESSAGE_SESSION_DELETE_SUCCESS)(dispatch)
         },
         (error) => {
             dispatch({ type: SESSION_DELETE_FAILURE, error })

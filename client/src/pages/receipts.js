@@ -6,6 +6,7 @@ import {
     getRecipients, getRecipientsError, getRecipientsDidInvalidate,
     getTransactions, getTransactionsError, getTransactionsDidInvalidate
 } from '../reducers'
+import * as constants from '../constants'
 import * as recipientsActions from '../actions/recipients'
 import * as transactionsActions from '../actions/transactions'
 import PageAlert, * as fromPageAlert from '../components/page-alert'
@@ -30,7 +31,7 @@ class ReceiptsPage extends React.PureComponent {
     _assureData() {
         const { recipientsError, transactions, transactionsError } = this.props
         if (recipientsError || transactionsError) {
-            return <PageAlert>{fromPageAlert.GENERAL_ERROR}</PageAlert>
+            return <PageAlert>{constants.MESSAGE_PAGE_ERROR(recipientsError || transactionsError)}</PageAlert>
         } else if (!transactions) {
             return <Indeterminate />
         } else {

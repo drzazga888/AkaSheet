@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import { NavLink, withRouter } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import './css/fontello.css'
 import './css/animation.css'
 import './css/styles.scss'
 
 import * as sessionActions from './actions/session'
-import { getMessages, getSessionUser } from './reducers'
+import { getMessages, getSessionUser, getLocation } from './reducers'
 import Message from './components/message'
 
 const MenuLink = (props) => <NavLink activeClassName="active" {...props} />
@@ -102,11 +102,12 @@ class Layout extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
     messages: getMessages(state),
-    userEmail: (getSessionUser(state) || {}).email
+    userEmail: (getSessionUser(state) || {}).email,
+    location: getLocation(state)
 })
 
 const mapDispatchToProps = {
     deleteSession: sessionActions.deleteSession
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout))
+export default connect(mapStateToProps, mapDispatchToProps)(Layout)

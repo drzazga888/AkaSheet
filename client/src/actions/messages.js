@@ -1,3 +1,5 @@
+import * as constants from '../constants'
+
 const messageTimeout = 5000
 
 export const ADD_MESSAGE = 'ADD_MESSAGE'
@@ -20,16 +22,16 @@ export const addSuccessMessage = (message) => addMessage(message, 'success')
 export const addErrorFromResponseCode = (code) => {
     switch (code) {
         case 400:
-            return addErrorMessage('Przesłane dane z formularza są błędne!')
+            return addErrorMessage(constants.MESSAGE_RESPONSE_BAD_REQEST)
         case 401:
-            return addErrorMessage('Błędne dane autoryzacyjne!')
+            return addErrorMessage(constants.MESSAGE_RESPONSE_UNAUTHORIZED)
         case 403:
-            return addErrorMessage('Zasób nie należy do uwierzytelnionego użytkownika!')
+            return addErrorMessage(constants.MESSAGE_RESPONSE_FORBIDDEN)
         case 404:
-            return addErrorMessage('Zasób nie został znaleziony!')
+            return addErrorMessage(constants.MESSAGE_RESPONSE_NOT_FOUND)
         case 409:
-            return addErrorMessage('Wartość pola indentyfikującego zasób (np. nazwa bądź e-mail) jest już wykorzystana. Spróbuj podać inną wartość!')
+            return addErrorMessage(constants.MESSAGE_RESPONSE_CONFLICT)
         default:
-            return addErrorMessage('Wystąpił błąd podczas przetwarzania żądania: ' + (code || '(brak kodu odpowiedzi)'))
+            return addErrorMessage(constants.MESSAGE_RESPONSE_ERROR(code))
     }
 }

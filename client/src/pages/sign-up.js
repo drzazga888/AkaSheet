@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as userActions from '../actions/users'
-import { getUserDidInvalidate, getUserError } from '../reducers'
+import { getUserDidInvalidate } from '../reducers'
 
 class SignUpPage extends React.PureComponent {
 
@@ -82,8 +82,7 @@ class SignUpPage extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    didInvalidate: getUserDidInvalidate(state),
-    error: getUserError(state)
+    didInvalidate: getUserDidInvalidate(state)
 })
 
 const mapDispatchToProps = {

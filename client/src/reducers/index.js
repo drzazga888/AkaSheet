@@ -29,3 +29,5 @@ export const getTransactionsError = (state) => fromTransactions.getError(state.t
 export const getTransactions = (state) => fromTransactions.getTransactions(state.transactions)
 
 export const getMessages = (state) => fromMessages.getMessages(state.messages)
+
+export const getLocation = (state) => state.router.location
