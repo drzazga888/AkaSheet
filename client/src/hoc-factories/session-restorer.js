@@ -35,6 +35,8 @@ export default (PageComponent) => connect(mapStateToProps, mapDispatchToProps)(
             const { isUserLoggedIn, sessionDidInvalidate, sessionDidError } = this.props
             if (sessionDidInvalidate) {
                 return <Indeterminate>Logowanie...</Indeterminate>
+            } else if (sessionDidError === 401) {
+                return <PageAlert>Sesja wygasła. Musisz zalogować się ponownie.</PageAlert>
             } else if (sessionDidError) {
                 return <PageAlert>{fromPageAlert.GENERAL_ERROR}</PageAlert>
             } else if (!isUserLoggedIn) {

@@ -51,13 +51,13 @@ class Layout extends React.PureComponent {
                     </button>
                     <div className="app-nav-overlay" onClick={this.closeMenu}>
                         <nav className="app-nav" onClick={e => e.stopPropagation()}>
-                            { userEmail ? <section>
+                            <section>
                                 <h3 className="section-title">Zarządzaj paragonami</h3>
                                 <ul className="menu">
                                     <li><MenuLink onClick={this.closeMenu} to="/entries">Wpisy</MenuLink></li>
                                     <li><MenuLink onClick={this.closeMenu} to="/summary">Podsumowanie</MenuLink></li>
                                 </ul>
-                            </section> : null}
+                            </section>
                             <section>
                                 <h3 className="section-title">Użytkownik</h3>
                                 { userEmail ?
