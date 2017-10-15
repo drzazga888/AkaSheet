@@ -45,3 +45,10 @@ export const getTransactions = (token) => fetch(basePath + 'transaction', {
     },
     method: 'get'
 }).then(jsonOrThrow)
+
+export const getSummary = (token) => fetch(basePath + 'summary', {
+    headers: {
+        'X-Token': token
+    },
+    method: 'get'
+}).then(jsonOrThrow)

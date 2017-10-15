@@ -6,8 +6,9 @@ import session, * as fromSession from './session'
 import messages, * as fromMessages from './messages'
 import recipients, * as fromRecipients from './recipients'
 import transactions, * as fromTransactions from './transactions'
+import summary, * as fromSummary from './summary'
 
-export default combineReducers({ users, session, messages, recipients, transactions, router })
+export default combineReducers({ users, session, messages, recipients, transactions, summary, router })
 
 export const getUserDidInvalidate = (state) => fromUsers.getDidInvalidate(state.users)
 export const getUserError = (state) => fromUsers.getError(state.users)
@@ -27,6 +28,10 @@ export const getRecipients = (state) => fromRecipients.getRecipients(state.recip
 export const getTransactionsDidInvalidate = (state) => fromTransactions.getDidInvalidate(state.transactions)
 export const getTransactionsError = (state) => fromTransactions.getError(state.transactions)
 export const getTransactions = (state) => fromTransactions.getTransactions(state.transactions)
+
+export const getSummaryDidInvalidate = (state) => fromSummary.getDidInvalidate(state.summary)
+export const getSummaryError = (state) => fromSummary.getError(state.summary)
+export const getSummary = (state) => fromSummary.getSummary(state.summary)
 
 export const getMessages = (state) => fromMessages.getMessages(state.messages)
 

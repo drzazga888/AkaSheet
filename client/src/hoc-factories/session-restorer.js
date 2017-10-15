@@ -24,7 +24,7 @@ export default (PageComponent) => connect(mapStateToProps, mapDispatchToProps)(
         componentDidMount() {
             const { isUserLoggedIn, sessionDidInvalidate } = this.props
             if (!isUserLoggedIn && !sessionDidInvalidate) {
-                const savedSession = sessionStorage.getItem('clientSession')
+                const savedSession = localStorage.getItem('clientSession')
                 if (savedSession) {
                     const { token, user } = JSON.parse(savedSession)
                     this.props.getUser(user, token)

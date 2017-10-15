@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { denormalize } from 'normalizr'
 
 import {
     getUsers,
@@ -7,12 +8,26 @@ import {
     getTransactions, getTransactionsError, getTransactionsDidInvalidate
 } from '../reducers'
 import * as constants from '../constants'
+import * as schemas from '../schemas'
 import * as recipientsActions from '../actions/recipients'
 import * as transactionsActions from '../actions/transactions'
 import PageAlert, * as fromPageAlert from '../components/page-alert'
 import Indeterminate from '../components/indeterminate'
+import Transaction from '../components/transaction'
 
 class ReceiptsPage extends React.PureComponent {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            selected: null
+        }
+        this.onTransactionClick = this.onTransactionClick.bind(this)
+    }
+
+    onTransactionClick(id) {
+        this.setState({ selected: this.state.selected === id ? null : id })
+    }
 
     componentDidMount() {
         if (!this.props.transactions && !this.props.transactionsDidInvalidate) {
@@ -24,8 +39,14 @@ class ReceiptsPage extends React.PureComponent {
     }
 
     _renderTransactions() {
-        const { transactions } = this.props
-        return <pre>{JSON.stringify(transactions, null, 4)}</pre>
+        const { transactions, users, recipients } = this.props
+        const { selected } = this.state
+        return Object.values(transactions).map(t => <Transaction
+            key={t.id}
+            {...denormalize(t, schemas.transaction, { users, recipients })}
+            onClick={() => this.onTransactionClick(t.id)}
+            selected={t.id === selected}
+        />)
     }
 
     _assureData() {

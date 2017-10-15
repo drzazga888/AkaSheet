@@ -356,4 +356,90 @@ body {
             display: inline-block;
         }
     }
+
+    .transaction {
+        border-left: solid 10px $accentColor;
+        padding-left: 10px;
+        margin: 10px 0 10px -10px;
+
+        &.paid {
+            border-left-color: $secondBackgroundColor;
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            height: 1px;
+            background: transparentize($fontColor, 0.75);
+            position: relative;
+            top: 5px;
+        }
+
+        &:last-of-type:after {
+            display: inline;
+            background: none;
+            position: static;
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+
+            .product-name {
+                margin: 0;
+                padding: 0;
+                font-size: 1.4em;
+                display: flex;
+            }
+
+            .cost {
+                .value {
+                    font-size: 1.4em;
+                }
+            }
+        }
+
+        .transaction-summary {
+
+            .buyer {
+                flex: 0 0 36%;
+            }
+
+            .recipient {
+                flex: 1 0 auto;
+            }
+
+            .purcase-date {
+                flex: 0 0 auto;
+            }
+        }
+    }
+
+    .tiles {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .tile {
+            overflow: hidden;
+
+            .tile-title {
+                text-transform: uppercase;
+                font-weight: bold;
+                color: transparentize($fontColor, 0.4);
+                font-size: 0.7em;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            .tile-content {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+    }
 }
