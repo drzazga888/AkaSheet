@@ -27,7 +27,6 @@ class Session
         $newSession->token = SessionModel::generateToken($user);
         $newSession->save();
         $newSession->user = $user;
-        $newSession->created_at = $newSession->created_at->format('d-m-Y H:i:s');
         return $response->withJson($newSession);
     }
 

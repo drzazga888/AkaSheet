@@ -12,8 +12,6 @@ class Session extends Model
 
     public $incrementing = false;
 
-    public $timestamps = false;
-
     public static function generateToken($user)
     {
         return sha1(date('d-m-Y H:i:s').$user->created_at);
