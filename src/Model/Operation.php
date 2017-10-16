@@ -10,9 +10,9 @@ class Operation extends Model
 
     public $timestamps = false;
 
-    protected $hidden = ['transaction_id', 'user_id'];
+    protected $hidden = ['transaction_id'];
 
-    protected $fillable = ['transaction_id', 'user_id', 'amount', 'part'];
+    protected $fillable = ['transaction_id', 'user_id', 'part'];
 
     public function transaction()
     {
