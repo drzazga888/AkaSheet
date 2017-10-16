@@ -8,7 +8,7 @@ class User extends Model
 {
     protected $table = 'user';
 
-    protected $hidden = ['password'];
+    protected $hidden = ['password', 'pivot'];
 
     public $timestamps = false;
 
