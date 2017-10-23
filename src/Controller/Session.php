@@ -25,6 +25,8 @@ class Session
         $newSession->created_at = new \DateTime();
         $newSession->user_id = $user->id;
         $newSession->token = SessionModel::generateToken($user);
+        $newSession->created_at = $newSession->created_at->format('Y-m-d H:i:s');
+        $newSession->ip_address = self::detectIp();
         $newSession->save();
         $newSession->user = $user;
         return $response->withJson($newSession);
@@ -37,5 +39,28 @@ class Session
         }
         $session->delete();
         return $response->withStatus(200);
+    }
+
+    private static function detectIp()
+    {
+        if (getenv('HTTP_CLIENT_IP')) {
+            $ipAddress = getenv('HTTP_CLIENT_IP');
+        } elseif (getenv('HTTP_X_FORWARDED_FOR')) {
+            $ipAddress = getenv('HTTP_X_FORWARDED_FOR');
+        } elseif (getenv('HTTP_X_FORWARDED')) {
+            $ipAddress = getenv('HTTP_X_FORWARDED');
+        } elseif (getenv('HTTP_FORWARDED_FOR')) {
+            $ipAddress = getenv('HTTP_FORWARDED_FOR');
+        } elseif (getenv('HTTP_FORWARDED')) {
+            $ipAddress = getenv('HTTP_FORWARDED');
+        } elseif (getenv('REMOTE_ADDR')) {
+            $ipAddress = getenv('REMOTE_ADDR');
+        } else {
+            $ipAddress = 'UNKNOWN';
+        }
+        if ($ipAddress === '0:0:0:0:0:0:0:1' || $ipAddress === '::1') {
+            $ipAddress = '127.0.0.1';
+        }
+        return ip2long($ipAddress);
     }
 }
